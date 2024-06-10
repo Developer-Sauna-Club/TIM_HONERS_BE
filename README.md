@@ -5,7 +5,7 @@
  <tr>
     <td align="center"><a href="https://github.com/GBAJS754"><img src="https://avatars.githubusercontent.com/GBAJS754" width="130px;" alt=""></a></td>
     <td align="center"><a href="https://github.com/khakhid"><img src="https://avatars.githubusercontent.com/khakhid" width="130px;" alt=""></a></td>
-    <td align="center"><a href="https://github.com/wukdddang"><img src="https://avatars.githubusercontent.com/wukdddang" width="130px;" alt=""></a></td>
+    <td align="center"><a href="https://github.com/bbearcookie"><img src="https://avatars.githubusercontent.com/bbearcookie" width="130px;" alt=""></a></td>
     <td align="center"><a href="https://github.com/colorkite10"><img src="https://avatars.githubusercontent.com/colorkite10" width="130px;" alt=""></a></td>
     <td align="center"><a href="https://github.com/DongjaJ"><img src="https://avatars.githubusercontent.com/DongjaJ" width="130px;" alt=""></a></td>
   </tr>
