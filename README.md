@@ -23,34 +23,7 @@
 
 ### 인프라 실행 방법
 
-프로젝트 폴더의 루트 디렉토리에서 `docker-compose up -d` 를 입력하면, 백그라운드에서 인프라가 실행됨.
-
-#### 도커 컴포즈
-
-**[도커 컴포즈 백그라운드 실행 방법]**  
-docker-compose up -d
-
-**[구동중인 도커 컴포즈 목록 확인]**  
-docker-compose ls
-
-**[도커 컴포즈 종료]**  
-docker-compose down -v
-
-#### 도커 컨테이너
-
-**[도커 컨테이너 목록 확인]**  
-docker container ls
-
-**[실행중인 컨테이너에 CLI로 접속하기]**  
-docker container exec -it <실행할 컨테이너 이름> <사용할 쉘>
-ex) docker container exec -it mariadb sh
-
-**[컨테이너 안에서 mariadb 접속하기]**
-
-```sh
-$ mariadb -u gomdol -p
-비밀번호 입력: 12341234
-```
+Docker Desktop을 실행하고, 프로젝트 폴더의 루트 디렉토리에서 `docker-compose up -d` 를 입력하면, 백그라운드에서 인프라가 실행됨.
 
 ### 로컬 서버 실행 방법
 
