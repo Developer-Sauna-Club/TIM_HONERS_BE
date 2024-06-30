@@ -8,8 +8,77 @@ datasource db {
 }
 
 model Hello {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  created_at DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  title      String   @db.VarChar(255)
+  content    String?  @db.Text
+  created_at DateTime @default(now()) @db.Timestamp(0)
+}
+
+model Channel {
+  id          Int      @id @default(autoincrement()) @map("_id")
+  description String?  @db.Text
+  name        String?  @db.VarChar(255)
+  createAt    DateTime @default(now()) @db.Timestamp(0)
+  updateAt    DateTime @default(now()) @db.Timestamp(0)
+  Post        Post[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement()) @map("_id")
+  comment   String?  @db.Text
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @db.Timestamp(0)
+  userId    Int
+  postId    Int
+  User      User     @relation(fields: [userId], references: [id], onUpdate: Restrict, map: "Comment_ibfk_1")
+  Post      Post     @relation(fields: [postId], references: [id], onUpdate: Restrict, map: "Comment_ibfk_2")
+
+  @@index([postId], map: "postId")
+  @@index([userId], map: "userId")
+}
+
+model Follow {
+  id                            Int      @id @default(autoincrement()) @map("_id")
+  createdAt                     DateTime @default(now()) @db.Timestamp(0)
+  updatedAt                     DateTime @default(now()) @db.Timestamp(0)
+  followerId                    Int
+  followingId                   Int
+  User_Follow_followerIdToUser  User     @relation("Follow_followerIdToUser", fields: [followerId], references: [id], onUpdate: Restrict, map: "Follow_ibfk_1")
+  User_Follow_followingIdToUser User     @relation("Follow_followingIdToUser", fields: [followingId], references: [id], onUpdate: Restrict, map: "Follow_ibfk_2")
+
+  @@index([followerId], map: "followerId")
+  @@index([followingId], map: "followingId")
+}
+
+model Post {
+  id            Int       @id @default(autoincrement()) @map("_id")
+  image         String?   @db.VarChar(255)
+  imagePublicId String?   @db.VarChar(255)
+  title         String?   @db.Text
+  createdAt     DateTime  @default(now()) @db.Timestamp(0)
+  updatedAt     DateTime  @default(now()) @db.Timestamp(0)
+  userId        Int
+  channelId     Int
+  Comment       Comment[]
+  User          User      @relation(fields: [userId], references: [id], onUpdate: Restrict, map: "Post_ibfk_1")
+  Channel       Channel   @relation(fields: [channelId], references: [id], onUpdate: Restrict, map: "Post_ibfk_2")
+
+  @@index([channelId], map: "channelId")
+  @@index([userId], map: "userId")
+}
+
+model User {
+  id                              Int       @id @default(autoincrement()) @map("_id")
+  email                           String?   @db.VarChar(255)
+  password                        String    @db.VarChar(255)
+  fullName                        String?   @db.VarChar(255)
+  username                        String?   @db.VarChar(255)
+  profileImage                    String?   @db.VarChar(255)
+  coverImage                      String?   @db.VarChar(255)
+  createAt                        DateTime  @default(now()) @db.Timestamp(0)
+  updateAt                        DateTime  @default(now()) @db.Timestamp(0)
+  Comment                         Comment[]
+  Follow_Follow_followerIdToUser  Follow[]  @relation("Follow_followerIdToUser")
+  Follow_Follow_followingIdToUser Follow[]  @relation("Follow_followingIdToUser")
+  Post                            Post[]
 }
