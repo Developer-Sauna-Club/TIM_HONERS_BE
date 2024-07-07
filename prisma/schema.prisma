@@ -7,13 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Hello {
-  id         Int      @id @default(autoincrement())
-  title      String   @db.VarChar(255)
-  content    String?  @db.Text
-  created_at DateTime @default(now()) @db.Timestamp(0)
-}
-
 model Channel {
   id          Int      @id @default(autoincrement()) @map("_id")
   description String?  @db.Text
@@ -50,6 +43,26 @@ model Follow {
   @@index([followingId], map: "followingId")
 }
 
+model Hello {
+  id         Int      @id @default(autoincrement())
+  title      String   @db.VarChar(255)
+  content    String?  @db.Text
+  created_at DateTime @default(now()) @db.Timestamp(0)
+}
+
+model Like {
+  id        Int      @id @default(autoincrement()) @map("_id")
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @db.Timestamp(0)
+  userId    Int
+  postId    Int
+  User      User     @relation(fields: [userId], references: [id], onUpdate: Restrict, map: "Like_ibfk_1")
+  Post      Post     @relation(fields: [postId], references: [id], onUpdate: Restrict, map: "Like_ibfk_2")
+
+  @@index([postId], map: "postId")
+  @@index([userId], map: "userId")
+}
+
 model Post {
   id            Int       @id @default(autoincrement()) @map("_id")
   image         String?   @db.VarChar(255)
@@ -60,6 +73,7 @@ model Post {
   userId        Int
   channelId     Int
   Comment       Comment[]
+  Like          Like[]
   User          User      @relation(fields: [userId], references: [id], onUpdate: Restrict, map: "Post_ibfk_1")
   Channel       Channel   @relation(fields: [channelId], references: [id], onUpdate: Restrict, map: "Post_ibfk_2")
 
@@ -80,5 +94,6 @@ model User {
   Comment                         Comment[]
   Follow_Follow_followerIdToUser  Follow[]  @relation("Follow_followerIdToUser")
   Follow_Follow_followingIdToUser Follow[]  @relation("Follow_followingIdToUser")
+  Like                            Like[]
   Post                            Post[]
 }

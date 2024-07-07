@@ -9,6 +9,7 @@ import { HelloModule } from './hello/hello.module';
     ConfigModule.forRoot({
       envFilePath: `.env.${process.env.NODE_ENV}`,
       expandVariables: true,
+      isGlobal: true,
     }),
     HelloModule,
   ],
