@@ -1,13 +1,13 @@
 USE HomersDB;
 
-CREATE TABLE Hello(
+CREATE TABLE `Hello` (
     id INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     content TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE User (
+CREATE TABLE `User` (
     _id INT AUTO_INCREMENT,
     email VARCHAR(255),
     password VARCHAR(255) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE User (
     PRIMARY KEY (_id)
 );
 
-CREATE TABLE Channel (
+CREATE TABLE `Channel` (
     _id INT AUTO_INCREMENT,
     description TEXT,
     name VARCHAR(255),
@@ -29,7 +29,7 @@ CREATE TABLE Channel (
     PRIMARY KEY (_id)
 );
 
-CREATE TABLE Post (
+CREATE TABLE `Post` (
     _id INT AUTO_INCREMENT,
     image VARCHAR(255),
     imagePublicId VARCHAR(255),
@@ -43,7 +43,7 @@ CREATE TABLE Post (
     FOREIGN KEY (channelId) REFERENCES Channel(_id)
 );
 
-CREATE TABLE Comment (
+CREATE TABLE `Comment` (
     _id INT AUTO_INCREMENT,
     comment TEXT,
     createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -55,7 +55,7 @@ CREATE TABLE Comment (
     FOREIGN KEY (postId) REFERENCES Post(_id)
 );
 
-CREATE TABLE Follow (
+CREATE TABLE `Follow` (
     _id INT AUTO_INCREMENT,
     createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -66,8 +66,8 @@ CREATE TABLE Follow (
     FOREIGN KEY (followingId) REFERENCES User(_id)
 );
 
-CREATE TABLE Like (
-    _id INT KEY AUTO_INCREMENT,
+CREATE TABLE `Like` (
+    _id INT AUTO_INCREMENT,
     createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     userId INT NOT NULL,
