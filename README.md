@@ -1,4 +1,4 @@
-# TMI_HONERS_BE
+# TMI_HOMERS_BE
 
 ## 멤버
 
