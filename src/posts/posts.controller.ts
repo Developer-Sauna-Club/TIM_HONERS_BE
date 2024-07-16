@@ -15,7 +15,7 @@ export class PostsController {
   })
   @Get('/channel/:channelId')
   findAll(@Param('channelId') channelId: number) {
-    return this.postsService.findAll(channelId);
+    return this.postsService.findAllByChannelId(channelId);
   }
 
   @ApiOperation({
@@ -24,7 +24,7 @@ export class PostsController {
   })
   @Get('/author/:authorId')
   findAllByUser(@Param('authorId') authorId: number) {
-    return this.postsService.findOne(authorId);
+    return this.postsService.findAllByAuthorId(authorId);
   }
 
   @ApiOperation({
