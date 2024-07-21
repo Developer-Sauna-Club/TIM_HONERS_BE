@@ -7,6 +7,7 @@ import { HelloModule } from './hello/hello.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      envFilePath: `.env.${process.env.NODE_ENV}`,
       expandVariables: true,
       isGlobal: true,
     }),
