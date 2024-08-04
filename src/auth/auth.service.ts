@@ -3,10 +3,14 @@ import * as bcrypt from 'bcryptjs';
 import { PrismaService } from 'src/prisma.service';
 import { SignUpDTO } from './dto/signup.dto';
 import { SignInDTO } from './dto/signin.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async signUp(signupDTO: SignUpDTO) {
     const { email, nickname, password } = signupDTO;
@@ -15,13 +19,19 @@ export class AuthService {
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(password, salt);
 
-      await this.prisma.user.create({
+      const user = await this.prisma.user.create({
         data: {
           email,
           password: hashedPassword,
           fullName: nickname,
         },
       });
+
+      const token = await this.createToken({
+        email: user.email,
+      });
+
+      return token;
     } catch (error) {
       if (error.code === 'P2002' || error.message.includes('unique constraint')) {
         throw new HttpException(
@@ -66,6 +76,18 @@ export class AuthService {
       );
     }
 
-    return user;
+    const token = await this.createToken({
+      email: user.email,
+    });
+
+    return token;
+  }
+
+  async createToken(user: { email: string }) {
+    const payload = { email: user.email };
+
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }
