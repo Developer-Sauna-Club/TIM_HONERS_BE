@@ -4,6 +4,7 @@ import { PrismaService } from 'src/prisma.service';
 import { SignUpDTO } from './dto/signup.dto';
 import { SignInDTO } from './dto/signin.dto';
 import { JwtService } from '@nestjs/jwt';
+import { JwtPayloadDto } from './dto/jwt-payload.dto';
 
 @Injectable()
 export class AuthService {
@@ -81,6 +82,21 @@ export class AuthService {
     });
 
     return token;
+  }
+
+  async validateToken(payload: JwtPayloadDto) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: payload.email,
+      },
+    });
+
+    if (!user) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    }
+
+    const { password, ...result } = user;
+    return result;
   }
 
   async createToken(user: { email: string }) {
