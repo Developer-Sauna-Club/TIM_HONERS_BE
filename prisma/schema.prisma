@@ -11,8 +11,8 @@ model Channel {
   id          Int      @id @default(autoincrement()) @map("_id")
   description String?  @db.Text
   name        String?  @db.VarChar(255)
-  createAt    DateTime @default(now()) @db.Timestamp(0)
-  updateAt    DateTime @default(now()) @db.Timestamp(0)
+  createdAt   DateTime @default(now()) @db.Timestamp(0)
+  updatedAt   DateTime @default(now()) @db.Timestamp(0)
   Post        Post[]
 }
 
@@ -89,8 +89,8 @@ model User {
   username                        String?   @db.VarChar(255)
   profileImage                    String?   @db.VarChar(255)
   coverImage                      String?   @db.VarChar(255)
-  createAt                        DateTime  @default(now()) @db.Timestamp(0)
-  updateAt                        DateTime  @default(now()) @db.Timestamp(0)
+  createdAt                       DateTime  @default(now()) @db.Timestamp(0)
+  updatedAt                       DateTime  @default(now()) @db.Timestamp(0)
   Comment                         Comment[]
   Follow_Follow_followerIdToUser  Follow[]  @relation("Follow_followerIdToUser")
   Follow_Follow_followingIdToUser Follow[]  @relation("Follow_followingIdToUser")
