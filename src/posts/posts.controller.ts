@@ -27,6 +27,7 @@ export class PostsController {
     return this.postsService.findAllByAuthorId(authorId);
   }
 
+  //TODO 인증 필요, 구현 필요
   @ApiOperation({
     summary: '특정 채널에 포스트 작성하기',
     description: '특정 채널에 포스트를 작성합니다. (토큰 필요)',
@@ -37,14 +38,15 @@ export class PostsController {
   }
 
   @ApiOperation({
-    summary: '특정 사용자의 포스트 목록 불러오기',
-    description: '특정 사용자의 포스트 목록 불러오기',
+    summary: '특정 포스트 상세 보기',
+    description: '특정 포스트의 정보를 불러옵니다.',
   })
   @Get('/:postId')
   findOne(@Param('postId') postId: number) {
-    return this.postsService.findOne(postId);
+    return this.postsService.findOneByPostId(postId);
   }
 
+  //TODO 인증필요, 구현 필요
   @ApiOperation({
     summary: '내가 작성한 포스트 수정하기',
     description: '내가 작성한 포스트를 수정합니다. (토큰 필요)',
@@ -54,6 +56,7 @@ export class PostsController {
     return this.postsService.update(updatePostDto);
   }
 
+  //TODO 인증 필요, 구현 필요
   @ApiOperation({
     summary: '내가 작성한 포스트 삭제하기',
     description: '내가 작성한 포스트를 삭제합니다. (토큰 필요)',

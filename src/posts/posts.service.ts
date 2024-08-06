@@ -25,7 +25,7 @@ export class PostsService {
     return post;
   }
 
-  async findOne(id: number) {
+  async findOneByPostId(id: number) {
     const post = await this.prisma.post.findUnique({
       where: {
         id,
