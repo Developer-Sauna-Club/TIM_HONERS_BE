@@ -8,21 +8,21 @@ export class PostsService {
   constructor(private prisma: PrismaService) {}
 
   async findAllByChannelId(channelId: number) {
-    const post = await this.prisma.post.findMany({
+    const postList = await this.prisma.post.findMany({
       where: {
         channelId,
       },
     });
-    return post;
+    return postList;
   }
 
   async findAllByAuthorId(authorId: number) {
-    const post = await this.prisma.post.findMany({
+    const postList = await this.prisma.post.findMany({
       where: {
         userId: authorId,
       },
     });
-    return post;
+    return postList;
   }
 
   async findOneByPostId(id: number) {
