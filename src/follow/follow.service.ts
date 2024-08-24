@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma.service';
 export class FollowService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async toggleFollow(followerId: number, followingId: number) {
+  async toggleFollow(followerId, followingId) {
     try {
       // 본인 팔로우를 시도하는 경우 에러 처리
       if (followerId === followingId) {
@@ -14,8 +14,8 @@ export class FollowService {
 
       const existing = await this.prisma.follow.findFirst({
         where: {
-          followerId: Number(followerId),
-          followingId: Number(followingId),
+          followerId: followerId,
+          followingId: followingId,
         },
       });
 
@@ -31,8 +31,8 @@ export class FollowService {
         // 팔로우되지 않았다면 팔로우 처리
         const followInfo = await this.prisma.follow.create({
           data: {
-            followerId: Number(followerId),
-            followingId: Number(followingId),
+            followerId: followerId,
+            followingId: followingId,
           },
         });
         return followInfo;
