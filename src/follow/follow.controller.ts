@@ -10,12 +10,12 @@ export class FollowController {
   @Post('/create')
   @UseGuards(JwtAuthGuard)
   async postFollow(@Body() body: CreateFollowDto, @Req() req) {
-    return this.followService.followUser(req.user.id, body.userId);
+    return this.followService.toggleFollow(req.user.id, body.userId);
   }
 
   @Post('/delete')
   @UseGuards(JwtAuthGuard)
   async postUnFollow(@Body() body: CreateFollowDto, @Req() req) {
-    return this.followService.unFollowUser(req.user.id, body.userId);
+    return this.followService.toggleFollow(req.user.id, body.userId);
   }
 }
