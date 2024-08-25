@@ -6,6 +6,7 @@ import { HelloModule } from './hello/hello.module';
 import { SearchModule } from './search/search.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { ImageModule } from './image/image.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UsersModule } from './users/users.module';
     SearchModule,
     AuthModule,
     UsersModule,
+    ImageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
