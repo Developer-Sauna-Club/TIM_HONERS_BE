@@ -8,6 +8,7 @@ import { SearchModule } from './search/search.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { FollowModule } from './follow/follow.module';
+import { SettingsModule } from './settings/settings.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { FollowModule } from './follow/follow.module';
     AuthModule,
     UsersModule,
     FollowModule,
+    SettingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
