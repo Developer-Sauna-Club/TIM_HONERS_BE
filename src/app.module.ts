@@ -7,6 +7,7 @@ import { PostsModule } from './posts/posts.module';
 import { SearchModule } from './search/search.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { ImageModule } from './image/image.module';
 import { FollowModule } from './follow/follow.module';
 import { SettingsModule } from './settings/settings.module';
 
@@ -22,6 +23,7 @@ import { SettingsModule } from './settings/settings.module';
     SearchModule,
     AuthModule,
     UsersModule,
+    ImageModule,
     FollowModule,
     SettingsModule,
   ],
