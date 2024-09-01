@@ -24,4 +24,19 @@ export class ImageService {
       upload.end(file.buffer);
     });
   }
+
+  async deleteImageFromCloudinary(imagePublicId: string) {
+    cloudinary.config({
+      cloud_name: process.env.ClOUD_NAME,
+      api_key: process.env.CLOUDINARY_API_KEY,
+      api_secret: process.env.CLOUDINARY_SECRET,
+    });
+
+    return new Promise((resolve, reject) => {
+      cloudinary.uploader.destroy(imagePublicId, (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      });
+    });
+  }
 }
