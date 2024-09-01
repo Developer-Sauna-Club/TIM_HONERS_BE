@@ -24,7 +24,8 @@ export class UsersService {
         id: userId,
       },
     });
+    const { password, ...result } = user;
 
-    return user;
+    return result;
   }
 }

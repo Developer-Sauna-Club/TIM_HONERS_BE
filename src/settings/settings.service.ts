@@ -20,7 +20,9 @@ export class SettingsService {
         },
       });
 
-      return updatedUser;
+      const { password, ...result } = updatedUser;
+
+      return result;
     } catch (error) {
       throw new HttpException(
         'Failed to update user information',
@@ -42,14 +44,11 @@ export class SettingsService {
         data: {
           password: hashedNewPassword,
         },
-        select: {
-          id: true,
-          email: true,
-          fullName: true,
-        },
       });
 
-      return updatedUser;
+      const { password, ...result } = updatedUser;
+
+      return result;
     } catch (error) {
       throw new HttpException('Failed to update password', HttpStatus.INTERNAL_SERVER_ERROR);
     }
