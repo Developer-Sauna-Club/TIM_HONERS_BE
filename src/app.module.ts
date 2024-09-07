@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import { ImageModule } from './image/image.module';
 import { FollowModule } from './follow/follow.module';
 import { SettingsModule } from './settings/settings.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { SettingsModule } from './settings/settings.module';
     ImageModule,
     FollowModule,
     SettingsModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
