@@ -1,9 +1,22 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+  UseGuards,
+  UseInterceptors,
+  UploadedFile,
+  Req,
+} from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-
+import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 @ApiTags('posts')
 @Controller('posts')
 export class PostsController {
@@ -27,14 +40,20 @@ export class PostsController {
     return this.postsService.findAllByAuthorId(authorId);
   }
 
-  //TODO 인증 필요, 구현 필요
+  // TODO 테스트  필요
   @ApiOperation({
     summary: '특정 채널에 포스트 작성하기',
     description: '특정 채널에 포스트를 작성합니다. (토큰 필요)',
   })
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
   @Post('create')
-  create(@Body() createPostDto: CreatePostDto) {
-    return this.postsService.create(createPostDto);
+  create(
+    @Body() createPostDto: CreatePostDto,
+    @UploadedFile() image: Express.Multer.File,
+    @Req() req,
+  ) {
+    return this.postsService.create(createPostDto, image, req.user.id);
   }
 
   @ApiOperation({
@@ -46,21 +65,28 @@ export class PostsController {
     return this.postsService.findOneByPostId(postId);
   }
 
-  //TODO 인증필요, 구현 필요
+  //TODO 테스트 필요
   @ApiOperation({
     summary: '내가 작성한 포스트 수정하기',
     description: '내가 작성한 포스트를 수정합니다. (토큰 필요)',
   })
+  @UseGuards(JwtAuthGuard)
   @Put('update')
-  update(@Body() updatePostDto: UpdatePostDto) {
-    return this.postsService.update(updatePostDto);
+  update(
+    @Body() updatePostDto: UpdatePostDto,
+    @UploadedFile() image: Express.Multer.File,
+    @Req() req,
+  ) {
+    return this.postsService.update(updatePostDto, image, req.user.id);
   }
 
-  //TODO 인증 필요, 구현 필요
+  //TODO 구현 필요
   @ApiOperation({
     summary: '내가 작성한 포스트 삭제하기',
     description: '내가 작성한 포스트를 삭제합니다. (토큰 필요)',
   })
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
   @Delete('delete')
   remove(@Body() { id }: { id: number }) {
     return this.postsService.remove(id);
