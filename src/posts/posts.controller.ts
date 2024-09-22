@@ -71,7 +71,7 @@ export class PostsController {
     description: '내가 작성한 포스트를 수정합니다. (토큰 필요)',
   })
   @UseGuards(JwtAuthGuard)
-  @Put('update')
+  @Post('update')
   update(
     @Body() updatePostDto: UpdatePostDto,
     @UploadedFile() image: Express.Multer.File,
@@ -87,7 +87,7 @@ export class PostsController {
   })
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('image'))
-  @Delete('delete')
+  @Post('delete')
   remove(@Body() { id }: { id: number }, @Req() req) {
     return this.postsService.remove(id, req.user.id);
   }
