@@ -15,11 +15,20 @@ export class CommentsService {
     if (!post) {
       throw new NotFoundException(`Post with ID ${postId} not found`);
     }
+
     //TODO 2. 프리즈마로 comment 모델에 새 데이터를 생성하자
-    return `
-      This action adds a new comment by userId: ${userId}
-      new comment content: ${comment}
-    `;
+    try {
+      const newComment = await this.prisma.comment.create({
+        data: {
+          comment,
+          postId: +postId,
+          userId: +userId,
+        },
+      });
+      return newComment;
+    } catch (error) {
+      throw new Error('댓글 생성에 실패하였습니다.');
+    }
   }
 
   async deleteComment(id: string, userId: string) {
@@ -36,6 +45,13 @@ export class CommentsService {
       throw new NotFoundException(`You can only delete your own comments`);
     }
     //TODO 2. 프리즈마로 comment 모델에 데이터를 제거하자
-    return `This action removes a ${id} comment by user ${userId}`;
+    try {
+      await this.prisma.comment.delete({
+        where: { id: +id },
+      });
+      return `댓글(${id})이 성공적으로 삭제되었습니다.`;
+    } catch (error) {
+      throw new Error('댓글 삭제에 실패하였습니다.');
+    }
   }
 }
