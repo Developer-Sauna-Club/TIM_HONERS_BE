@@ -88,7 +88,7 @@ export class PostsController {
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('image'))
   @Delete('delete')
-  remove(@Body() { id }: { id: number }) {
-    return this.postsService.remove(id);
+  remove(@Body() { id }: { id: number }, @Req() req) {
+    return this.postsService.remove(id, req.user.id);
   }
 }
