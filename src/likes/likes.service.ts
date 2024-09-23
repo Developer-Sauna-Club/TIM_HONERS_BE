@@ -22,7 +22,7 @@ export class LikesService {
       throw new NotFoundException(`Post with ID ${postId} not found`);
     }
 
-    const alreadyLike = this.prisma.like.findFirst({
+    const alreadyLike = await this.prisma.like.findFirst({
       where: {
         userId: +userId,
         postId: +postId,
