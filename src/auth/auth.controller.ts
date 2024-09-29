@@ -34,6 +34,11 @@ export class AuthController {
     };
   }
 
+  @Post('signout')
+  async signout() {
+    return 'Successfuly Signed out';
+  }
+
   @Get('check')
   @UseGuards(JwtAuthGuard)
   async check(@Req() req) {
