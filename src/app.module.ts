@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import { ImageModule } from './image/image.module';
 import { FollowModule } from './follow/follow.module';
 import { SettingsModule } from './settings/settings.module';
+import { CommentsModule } from './comments/comments.module';
 import { LikesModule } from './likes/likes.module';
 
 @Module({
@@ -27,6 +28,7 @@ import { LikesModule } from './likes/likes.module';
     ImageModule,
     FollowModule,
     SettingsModule,
+    CommentsModule,
     LikesModule,
   ],
   controllers: [AppController],
