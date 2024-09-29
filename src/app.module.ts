@@ -11,6 +11,7 @@ import { ImageModule } from './image/image.module';
 import { FollowModule } from './follow/follow.module';
 import { SettingsModule } from './settings/settings.module';
 import { CommentsModule } from './comments/comments.module';
+import { LikesModule } from './likes/likes.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { CommentsModule } from './comments/comments.module';
     FollowModule,
     SettingsModule,
     CommentsModule,
+    LikesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
