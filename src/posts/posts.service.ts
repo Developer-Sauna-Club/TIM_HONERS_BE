@@ -98,6 +98,7 @@ export class PostsService {
   async remove(id: number, userId: number) {
     const post = await this.prisma.post.findFirst({
       where: {
+        id,
         userId,
       },
     });
