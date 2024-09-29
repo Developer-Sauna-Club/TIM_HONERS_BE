@@ -40,7 +40,6 @@ export class PostsController {
     return this.postsService.findAllByAuthorId(authorId);
   }
 
-  // TODO 테스트  필요
   @ApiOperation({
     summary: '특정 채널에 포스트 작성하기',
     description: '특정 채널에 포스트를 작성합니다. (토큰 필요)',
@@ -65,12 +64,12 @@ export class PostsController {
     return this.postsService.findOneByPostId(postId);
   }
 
-  //TODO 테스트 필요
   @ApiOperation({
     summary: '내가 작성한 포스트 수정하기',
     description: '내가 작성한 포스트를 수정합니다. (토큰 필요)',
   })
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
   @Post('update')
   update(
     @Body() updatePostDto: UpdatePostDto,
@@ -80,13 +79,11 @@ export class PostsController {
     return this.postsService.update(updatePostDto, image, req.user.id);
   }
 
-  //TODO 구현 필요
   @ApiOperation({
     summary: '내가 작성한 포스트 삭제하기',
     description: '내가 작성한 포스트를 삭제합니다. (토큰 필요)',
   })
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FileInterceptor('image'))
   @Post('delete')
   remove(@Body() { id }: { id: number }, @Req() req) {
     return this.postsService.remove(id, req.user.id);
