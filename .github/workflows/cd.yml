@@ -1,0 +1,68 @@
+name: CD
+
+on:
+  push:
+    branches: ['chore/41']
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+  MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+  MYSQL_USER: ${{ secrets.MYSQL_USER }}
+  MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
+  ClOUD_NAME: ${{ secrets.ClOUD_NAME }}
+  CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+  CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Create .env file
+        run: |
+          jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<< "$SECRETS_CONTEXT" >> .env
+        env:
+          SECRETS_CONTEXT: ${{ toJson(env) }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Prisma generate
+        run: pnpm prisma generate
+
+      - name: AWS configure credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_BACKEND_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_BACKEND_SECRET_KEY }}
+          aws-region: 'ap-northeast-2'
+
+      - name: 빌드 내용 및 배포 파일 압축
+        run: tar cvfz ./$GITHUB_SHA.gz -x node_modules .env src README.md .git .gitignore
+
+      - name: 압축 파일 S3 업로드
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.gz s3://${{secrets.AWS_BACKEND_S3_BUCKET}}/deployment/$GITHUB_SHA.gz
+
+      - name: CodeDeploy 배포
+        run: aws deploy create-deployment
+          --application-name ${{secrets.AWS_BACKEND_CODEDEPLOY_APPLICATION_NAME}}
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name ${{secrets.AWS_BACKEND_CODEDEPLOY_GROUP_NAME}}
+          --s3-location bucket=${{secrets.AWS_BACKEND_S3_BUCKET}},bundleType=tgz,key=deployment/$GITHUB_SHA.gz
