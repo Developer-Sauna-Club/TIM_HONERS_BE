@@ -58,7 +58,7 @@ jobs:
           aws-region: 'ap-northeast-2'
 
       - name: 빌드 내용 및 배포 파일 압축
-        run: tar cvfz ./$GITHUB_SHA.gz --exclude={node_modules,.env,src,README.md,.git,.gitignore}
+        run: tar cvfz ./$GITHUB_SHA.gz dist prisma schema scripts package.json pnpm-lock.yaml
 
       - name: 압축 파일 S3 업로드
         run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.gz s3://${{secrets.AWS_BACKEND_S3_BUCKET}}/deployment/$GITHUB_SHA.gz
